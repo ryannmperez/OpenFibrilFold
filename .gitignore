@@ -1,0 +1,32 @@
+# weights and large artifacts (use Releases / HF for distribution)
+*.ckpt
+*.pt
+*.pth
+*.safetensors
+
+# python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+.venv/
+.ipynb_checkpoints/
+
+# os / editor
+.DS_Store
+.vscode/
+.idea/
+
+# data — never commit raw or preprocessed datasets
+*.cif
+*.mmcif
+*.pdb
+*.npz
+*.json.gz
+data/
+preprocessed/
+dataset_caches/
+
+# generated PyMOL / structure renders kept under figures/, but raw temps go away
+*.pse
+*.pml.tmp

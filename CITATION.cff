@@ -1,0 +1,33 @@
+cff-version: 1.2.0
+title: "OpenFibrilFold: an OpenFold3 fine-tune for amyloid fibril structure prediction"
+message: "If you use this work, please cite the GitHub repository."
+type: software
+authors:
+  - family-names: Perez
+    given-names: Ryann
+    email: ryann.m.perez@gmail.com
+repository-code: "https://github.com/ryannmperez/OpenFibrilFold"
+license: Apache-2.0
+keywords:
+  - protein-structure-prediction
+  - amyloid
+  - fibril
+  - openfold
+  - alphafold3
+  - cross-beta
+  - structural-biology
+  - deep-learning
+references:
+  - type: article
+    title: "Accurate structure prediction of biomolecular interactions with AlphaFold 3"
+    authors:
+      - family-names: Abramson
+        given-names: J.
+    year: 2024
+    journal: Nature
+    doi: 10.1038/s41586-024-07487-w
+  - type: software
+    title: "OpenFold3"
+    authors:
+      - name: "AQ Laboratory"
+    url: "https://github.com/aqlaboratory/openfold-3"
