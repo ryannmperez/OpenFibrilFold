@@ -76,7 +76,7 @@ We are also interested in the model's capability to **predict ligand poses bound
 
 ## Head-to-head predictions
 
-Three held-out fibrils, viewed end-on (looking straight down the protofilament stacking axis) so the cross-section that defines the fold is visible. **Top row:** OpenFold3 base. **Middle:** experimental cryo-EM ground truth. **Bottom:** OFF. Columns were picked by per-PDB ΔTM (OFF − base OF3) within each dataloader, so the figure spans the full range of behaviour on the held-out set: **9qlu** — largest ΔTM on `val_unique_seq` (+0.253); **9ug1** — largest ΔTM on `val_ligand` (+0.324); **9ljb** — smallest ΔTM in either set (+0.066), a 1010-residue assembly where both models still struggle. Each column is rendered at the same physical scale; the prediction panels are coloured by per-residue lDDT against the experimental reference — saturated colour = aligned, faded toward white = mis-aligned. The number under each prediction is the per-PDB intra-complex lDDT computed with the *same* function the val pipeline uses (`openfold3.core.metrics.validation_all_atom.lddt`) on heavy atoms after Hungarian chain-permutation matching, so values are on the same scale as the metric table above.
+Three held-out fibrils, viewed end-on (looking straight down the protofilament stacking axis) so the cross-section that defines the fold is visible. **Top row:** OpenFold3 base. **Middle:** experimental cryo-EM ground truth. **Bottom:** OFF. The prediction panels are coloured by per-residue lDDT against the experimental reference — saturated colour = aligned, faded toward white = mis-aligned.
 
 <!-- HEAD_TO_HEAD_START -->
 <p align="center">
