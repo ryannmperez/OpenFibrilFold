@@ -33,10 +33,10 @@ We are also interested in the model's capability to **predict ligand poses bound
 > Validation is a single full-sequence pass (`trainer.validate`) over the held-out fibril set, run end-to-end against unmodified OpenFold3 base weights using the *same* config (val pool, diffusion sampling, polymorph matching, MSAs, templates). The only difference between the two columns is the model weights. Two dataloaders, 13 PDBs total: `val_unique_seq` (n=6, rare-fold apo + ligand fibrils on unseen sequences) and `val_ligand` (n=7, ligand-bound fibrils). Numbers below are aggregates across both; per-dataloader and per-PDB breakdowns are in [`docs/val_compare.md`](docs/val_compare.md).
 
 <p align="center">
-  <img src="figures/val_ligand_tm.png" alt="Per-PDB fibril-assembly TM-score on val_ligand: base OF3 vs OpenFibrilFold (paired bars, OpenFibrilFold wins 7/7)" width="780" />
+  <img src="figures/val_ligand_tm.png" alt="Per-PDB fibril-assembly TM-score on val_ligand: base OF3 vs OpenFibrilFold (paired bars)" width="780" />
 </p>
 
-<sub>Fibril-assembly TM-score on `val_ligand` (USalign multi-chain complex mode). OpenFibrilFold wins on every PDB; 7/7 cross the same-fold threshold (TM ≥ 0.5) versus 1/7 for base OF3. Star case: 9ug1, TM 0.57 → 0.90.</sub>
+<sub>Per-PDB fibril-assembly TM-score on `val_ligand` (USalign multi-chain complex mode). OpenFibrilFold scores higher than base OF3 on every PDB in the set; per-PDB margins range from +0.15 to +0.32. The `val_unique_seq` breakdown is in [`docs/val_compare.md`](docs/val_compare.md).</sub>
 
 <!-- METRICS_TABLE_START -->
 | Metric | OpenFold3 base | OpenFibrilFold |
@@ -69,11 +69,11 @@ We are also interested in the model's capability to **predict ligand poses bound
 
 ## Head-to-head predictions
 
-Three held-out fibrils, viewed end-on (looking straight down the protofilament stacking axis) so the cross-section that defines the fold is visible. **Top row:** OpenFold3 base. **Middle:** experimental cryo-EM ground truth. **Bottom:** OpenFibrilFold. Each column is rendered at the same physical scale; the prediction panels are coloured by per-residue lDDT against the experimental reference — saturated colour = aligned, faded toward white = mis-aligned. The number under each prediction is the per-PDB intra-complex lDDT computed with the *same* function the val pipeline uses (`openfold3.core.metrics.validation_all_atom.lddt`) on heavy atoms after Hungarian chain-permutation matching, so values are on the same scale as the metric table above.
+Three held-out fibrils, viewed end-on (looking straight down the protofilament stacking axis) so the cross-section that defines the fold is visible. **Top row:** OpenFold3 base. **Middle:** experimental cryo-EM ground truth. **Bottom:** OpenFibrilFold. Columns were picked by per-PDB ΔTM (OpenFibrilFold − base OF3) within each dataloader, so the figure spans the full range of behaviour on the held-out set: **9qlu** — largest ΔTM on `val_unique_seq` (+0.253); **9ug1** — largest ΔTM on `val_ligand` (+0.324); **9ljb** — smallest ΔTM in either set (+0.066), a 1010-residue assembly where both models still struggle. Each column is rendered at the same physical scale; the prediction panels are coloured by per-residue lDDT against the experimental reference — saturated colour = aligned, faded toward white = mis-aligned. The number under each prediction is the per-PDB intra-complex lDDT computed with the *same* function the val pipeline uses (`openfold3.core.metrics.validation_all_atom.lddt`) on heavy atoms after Hungarian chain-permutation matching, so values are on the same scale as the metric table above.
 
 <!-- HEAD_TO_HEAD_START -->
 <p align="center">
-  <img src="figures/h2h_grid.png" alt="3×3 head-to-head: OF3 base vs ground truth vs OpenFibrilFold for 7nck (tau, no ligand), 7ynf (α-syn, ligand-bound), 8fug (tau, ligand-bound)" width="780" />
+  <img src="figures/h2h_grid.png" alt="3×3 head-to-head: OF3 base vs ground truth vs OpenFibrilFold on 9qlu (largest val_unique_seq ΔTM), 9ug1 (largest val_ligand ΔTM), 9ljb (smallest ΔTM in either val set)" width="780" />
 </p>
 <!-- HEAD_TO_HEAD_END -->
 

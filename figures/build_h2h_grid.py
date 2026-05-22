@@ -1,12 +1,19 @@
 """Assemble the 3×3 head-to-head grid from the per-panel PNGs.
 
 Layout:
-    cols (left→right): 7nck   7ynf   8enq
-    rows (top→bottom): OF3 base   Ground truth   OpenFibrilFold
+    cols (left→right): 9qlu (best val_unique_seq), 9ug1 (best val_ligand),
+                       9ljb (hardest case in either val set)
+    rows (top→bottom): OF3 base, Ground truth, OpenFibrilFold
 
-Each cell shows the panel image and an lDDT label below.
+Each cell shows the panel image and lDDT + TM-score labels below.
 Row labels appear as rotated text on the left margin; column labels
 across the top.
+
+Column selection: per-PDB FT-vs-OF3 TM-score delta. 9qlu has the largest
+ΔTM (+0.253) within val_unique_seq (rare-fold apo / ligand fibrils on
+unseen sequences). 9ug1 has the largest ΔTM (+0.324) within val_ligand.
+9ljb has the smallest ΔTM (+0.066) and the lowest absolute TM in either
+dataloader — a 1010-residue assembly where both models still struggle.
 """
 
 from PIL import Image, ImageDraw, ImageFont, ImageChops
@@ -15,7 +22,7 @@ import os
 PANELS_DIR = os.path.join(os.path.dirname(__file__), "panels")
 OUT = os.path.join(os.path.dirname(__file__), "h2h_grid.png")
 
-PDBS = ["7nck", "7ynf", "8fug"]
+PDBS = ["9qlu", "9ug1", "9ljb"]
 ROWS = [
     ("OF3 base",        "base", (227, 121, 21)),
     ("Ground truth",    "gt",   (50, 50, 50)),
@@ -25,20 +32,24 @@ ROWS = [
 # Per-PDB lDDT computed via openfold3.core.metrics.validation_all_atom.lddt
 # (the function the val pipeline uses) on heavy atoms after Hungarian
 # chain-permutation matching. Same formula → same numerical scale as the
-# README metric table.
+# README metric table. Computed by scripts/per_pdb_val_metric.py on the
+# val_compare pred / gt CIFs (epoch 0 of trainer.validate on exp43
+# step 1024 vs base OF3 ft3_v1).
 LDDT = {
-    "7nck": {"base": 0.408, "off": 0.627},
-    "7ynf": {"base": 0.452, "off": 0.902},
-    "8fug": {"base": 0.205, "off": 0.389},
+    "9qlu": {"base": 0.406, "off": 0.492},
+    "9ug1": {"base": 0.436, "off": 0.774},
+    "9ljb": {"base": 0.395, "off": 0.400},
 }
 
-# Per-PDB TM-score from US-align with multi-chain protein flags
-# (USalign … -mol prot -mm 1 -ter 1), normalised by the GT length.
-# Computed by scripts/per_pdb_tm_score.py on the same val pred/gt CIFs.
+# Per-PDB TM-score from US-align in multi-chain complex mode
+# (USalign … -mm 1 -ter 0), so the score covers the full fibril assembly
+# with chain correspondences found by MM-align greedy search.
+# Computed by scripts/compute_val_compare_tm.py on the same val_compare
+# pred / gt CIFs used for LDDT above.
 TM = {
-    "7nck": {"base": 0.544, "off": 0.904},
-    "7ynf": {"base": 0.330, "off": 0.973},
-    "8fug": {"base": 0.235, "off": 0.285},
+    "9qlu": {"base": 0.204, "off": 0.457},
+    "9ug1": {"base": 0.573, "off": 0.897},
+    "9ljb": {"base": 0.158, "off": 0.224},
 }
 
 CELL = 600                # input panel size (matches render_panel.py)

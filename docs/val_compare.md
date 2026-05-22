@@ -13,16 +13,20 @@ Two held-out dataloaders, full-sequence (no train-time cropping):
 
 ## Headline TM-score
 
-USalign multi-chain complex alignment (`-mm 1 -ter 0`), pred CIF vs GT CIF from the same Lightning val pass. The score is computed on the full fibril assembly — chain correspondences are found by MM-align greedy search, so a single TM number captures both monomer fold *and* stacking geometry. **TM ≥ 0.5** is the canonical "same fold" threshold.
+USalign multi-chain complex alignment (`-mm 1 -ter 0`), pred CIF vs GT CIF from the same Lightning val pass. The score is computed on the full fibril assembly — chain correspondences are found by MM-align greedy search, so a single TM number captures both monomer fold *and* stacking geometry.
 
 <p align="center">
   <img src="../figures/val_ligand_tm.png" alt="Per-PDB TM-score on val_ligand: base OF3 vs OpenFibrilFold" width="780" />
 </p>
 
-| dataloader | n | mean TM (base OF3) | mean TM (OpenFibrilFold) | Δ | fraction ≥ 0.5 (base → OFF) |
-|---|---:|---:|---:|---:|---:|
-| `val_ligand`     | 7 | 0.376 | **0.610** | +0.235 | 1/7 → 7/7 |
-| `val_unique_seq` | 6 | 0.282 | **0.456** | +0.174 | 1/6 → 2/6 |
+<p align="center">
+  <img src="../figures/val_unique_seq_tm.png" alt="Per-PDB TM-score on val_unique_seq: base OF3 vs OpenFibrilFold" width="780" />
+</p>
+
+| dataloader | n | mean TM (base OF3) | mean TM (OpenFibrilFold) | Δ |
+|---|---:|---:|---:|---:|
+| `val_ligand`     | 7 | 0.376 | **0.610** | +0.235 |
+| `val_unique_seq` | 6 | 0.282 | **0.456** | +0.174 |
 
 **Per-PDB TM-score (winner highlighted):**
 
@@ -42,9 +46,7 @@ USalign multi-chain complex alignment (`-mm 1 -ter 0`), pred CIF vs GT CIF from 
 | val_unique_seq | 9qlu |  330 | 0.204 | **0.457** | +0.253 | 7.09 | 3.54 |
 | val_unique_seq | 9u4l |  345 | 0.392 | **0.538** | +0.146 | 5.71 | 5.58 |
 
-**Win count (per-PDB TM):** OpenFibrilFold = **13/13**, base = 0/13.
-
-Highlight: 9ug1 (α-syn fibril, 10 chains) goes from TM 0.573 / RMSD 5.09 Å → **TM 0.897 / RMSD 2.32 Å** — essentially solved. Base OF3 alone clears TM ≥ 0.5 on 2/13 entries; OpenFibrilFold clears it on 9/13.
+OpenFibrilFold scores higher than base OF3 on every PDB in the set (per-PDB ΔTM range +0.066 to +0.324). The largest per-PDB improvement is 9ug1 (α-syn fibril, 10 chains): TM 0.573 / RMSD 5.09 Å → TM 0.897 / RMSD 2.32 Å. The smallest is 9ljb (a 1010-residue assembly), where both models still produce only partial folds.
 
 ## Full Lightning val-pipeline metrics
 
