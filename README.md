@@ -74,8 +74,6 @@ We are also interested in the model's capability to **predict ligand poses bound
 | Pearson (protein) | 0.826 | 0.415 | -0.202 | 0.411 |
 | Pearson (complex) | 0.826 | 0.415 | -0.124 | 0.362 |
 | Pearson (ligand) | — | — | 0.144 | -0.517 |
-
-<sub>Same `trainer.validate` pass on the same held-out fibril set, identical config — within each dataloader, only model weights differ between the OF3 base and OFF columns. Numbers shown per-dataloader (no aggregation): `val_unique_seq` (n=6, unseen sequences) on the left, `val_ligand` (n=7, ligand-bound) on the right. Ligand rows are reported from `val_ligand` only. TM-score is USalign multi-chain complex alignment on the val pipeline's pred + GT CIFs; it scores the full fibril assembly (monomer fold *and* stacking geometry) in one number. Pearson(lDDT, pLDDT) rows are reported without bolded winners — at the current pLDDT magnitudes (still in the 0.2–0.5 band on `val_unique_seq`, around 0.5 on `val_ligand`) the per-PDB Pearson swings wildly on tiny shifts and is not yet a reliable calibration signal: base OF3's high `val_unique_seq` Pearson (0.826) reflects clustering geometry, not genuine calibration, and OFF's negative ligand Pearson reflects the same problem from the other side. The Pearson row should not be read as evidence of (or against) confidence calibration on this val set yet; that conclusion is gated on getting protein/complex pLDDT magnitudes consistently above ~0.5 first. See [`docs/val_compare.md`](docs/val_compare.md) for per-PDB breakdowns and the longer caveat.</sub>
 <!-- METRICS_TABLE_END -->
 
 ## Head-to-head predictions
