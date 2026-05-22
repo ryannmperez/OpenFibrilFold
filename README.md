@@ -18,7 +18,7 @@
 
 ## Overview
 
-OpenFibrilFold adapts [OpenFold3](https://github.com/aqlaboratory/openfold-3) (an open reimplementation of AlphaFold 3) to the structural-prediction problem of **amyloid fibrils**: ribbon-like protein assemblies built from cross-β–stacked monomers, often in many coexisting *polymorphs*. Off-the-shelf folding models tend to either collapse onto a single fibril packing or produce geometrically-inconsistent ribbons because their cropping, distogram, and confidence machinery weren't designed for periodic ribbon assemblies. OpenFibrilFold introduces:
+OpenFibrilFold (OFF) adapts [OpenFold3](https://github.com/aqlaboratory/openfold-3) (an open reimplementation of AlphaFold 3) to the structural-prediction problem of **amyloid fibrils**: ribbon-like protein assemblies built from cross-β–stacked monomers, often in many coexisting *polymorphs*. Off-the-shelf folding models tend to either collapse onto a single fibril packing or produce geometrically-inconsistent ribbons because their cropping, distogram, and confidence machinery weren't designed for periodic ribbon assemblies. OFF introduces:
 
 - a **ribbon-symmetric crop** that preserves both faces of the cross-β stack during training,
 - a **cross-ribbon distogram weight** that emphasizes the fold-defining inter-strand contacts,
@@ -30,56 +30,56 @@ We are also interested in the model's capability to **predict ligand poses bound
 ## Highlights
 
 > [!NOTE]
-> Validation is a single full-sequence pass (`trainer.validate`) over the held-out fibril set, run end-to-end against unmodified OpenFold3 base weights using the *same* config (val pool, diffusion sampling, polymorph matching, MSAs, templates). The only difference between the two columns is the model weights. Two dataloaders, 13 PDBs total: `val_unique_seq` (n=6, rare-fold apo + ligand fibrils on unseen sequences) and `val_ligand` (n=7, ligand-bound fibrils). Numbers below are aggregates across both; per-dataloader and per-PDB breakdowns are in [`docs/val_compare.md`](docs/val_compare.md).
+> Validation is a single full-sequence pass (`trainer.validate`) over the held-out fibril set, run end-to-end against unmodified OpenFold3 base weights using the *same* config (val pool, diffusion sampling, polymorph matching, MSAs, templates). Within each dataloader, the only difference between the OF3 base and OFF columns is the model weights. Two dataloaders, 13 PDBs total: `val_unique_seq` (n=6, rare-fold apo + ligand fibrils on unseen sequences) and `val_ligand` (n=7, ligand-bound fibrils). Numbers below are reported per-dataloader (no aggregation); per-PDB breakdowns are in [`docs/val_compare.md`](docs/val_compare.md).
 
 <p align="center">
-  <img src="figures/val_ligand_tm.png" alt="Per-PDB fibril-assembly TM-score on val_ligand: base OF3 vs OpenFibrilFold (paired bars)" width="780" />
+  <img src="figures/val_ligand_tm.png" alt="Per-PDB fibril-assembly TM-score on val_ligand: base OF3 vs OFF (paired bars)" width="780" />
 </p>
 
-<sub>Per-PDB fibril-assembly TM-score on `val_ligand` (USalign multi-chain complex mode). OpenFibrilFold scores higher than base OF3 on every PDB in the set; per-PDB margins range from +0.15 to +0.32.</sub>
+<sub>Per-PDB fibril-assembly TM-score on `val_ligand` (USalign multi-chain complex mode). OFF scores higher than base OF3 on every PDB in the set; per-PDB margins range from +0.15 to +0.32.</sub>
 
 <p align="center">
-  <img src="figures/val_unique_seq_tm.png" alt="Per-PDB fibril-assembly TM-score on val_unique_seq: base OF3 vs OpenFibrilFold (paired bars)" width="780" />
+  <img src="figures/val_unique_seq_tm.png" alt="Per-PDB fibril-assembly TM-score on val_unique_seq: base OF3 vs OFF (paired bars)" width="780" />
 </p>
 
-<sub>Per-PDB fibril-assembly TM-score on `val_unique_seq` (USalign multi-chain complex mode). `val_unique_seq` holds out the protein sequence entirely, so the model has never seen these chains at train time — the harder set. OpenFibrilFold scores higher than base OF3 on every PDB; per-PDB margins range from +0.07 (9ljb, 1010 residues) to +0.25 (9cww, 9qlu).</sub>
+<sub>Per-PDB fibril-assembly TM-score on `val_unique_seq` (USalign multi-chain complex mode). `val_unique_seq` holds out the protein sequence entirely, so the model has never seen these chains at train time — the harder set. OFF scores higher than base OF3 on every PDB; per-PDB margins range from +0.07 (9ljb, 1010 residues) to +0.25 (9cww, 9qlu).</sub>
 
 <!-- METRICS_TABLE_START -->
-| Metric | OpenFold3 base | OpenFibrilFold |
-| --- | --- | --- |
-| **Structure (lDDT / TM, ↑)** |  |  |
-| Intra-protein lDDT | 0.477 | **0.614** |
-| Inter-protein lDDT | 0.193 | **0.482** |
-| Intra-complex lDDT | 0.479 | **0.615** |
-| TM-score (USalign, complex) | 0.333 | **0.539** |
-| **Ligand (lDDT, ↑)** |  |  |
-| Intra-ligand lDDT | 0.876 | **0.893** |
-| Intra-ligand lDDT (uha) | 0.729 | **0.754** |
-| Inter-ligand lDDT | 0.232 | **0.313** |
-| Protein–ligand lDDT | 0.069 | **0.086** |
-| **Geometric (↓ lower better; GDT ↑)** |  |  |
-| Distogram loss | 1.375 | **1.180** |
-| Scaled distogram loss | 0.0412 | **0.0354** |
-| Intra-protein dRMSD (Å) | 15.31 | **11.97** |
-| Intra-ligand dRMSD (Å) | 0.800 | **0.698** |
-| Complex RMSD (Å) | 30.53 | **19.22** |
-| GDT-TS | 0.024 | **0.129** |
-| GDT-HA | 0.004 | **0.057** |
-| **Confidence (pLDDT magnitude, ↑)** |  |  |
-| pLDDT (protein) | 0.254 | **0.440** |
-| pLDDT (complex) | 0.253 | **0.434** |
-| pLDDT (ligand) | 0.175 | **0.230** |
+| Metric | OF3 base<br/>val_unique_seq | OFF<br/>val_unique_seq | OF3 base<br/>val_ligand | OFF<br/>val_ligand |
+| --- | ---: | ---: | ---: | ---: |
+| **Structure (lDDT / TM, ↑)** |  |  |  |  |
+| Intra-protein lDDT | 0.477 | **0.538** | 0.477 | **0.679** |
+| Inter-protein lDDT | 0.168 | **0.425** | 0.214 | **0.531** |
+| Intra-complex lDDT | 0.477 | **0.538** | 0.480 | **0.681** |
+| TM-score (USalign, complex) | 0.282 | **0.456** | 0.376 | **0.610** |
+| **Ligand (lDDT, ↑)** |  |  |  |  |
+| Intra-ligand lDDT | — | — | 0.876 | **0.893** |
+| Intra-ligand lDDT (uha) | — | — | 0.729 | **0.754** |
+| Inter-ligand lDDT | — | — | 0.232 | **0.313** |
+| Protein–ligand lDDT | — | — | 0.069 | **0.086** |
+| **Geometric (↓ lower better; GDT ↑)** |  |  |  |  |
+| Distogram loss | 1.642 | **1.387** | 1.146 | **1.003** |
+| Scaled distogram loss | 0.0493 | **0.0416** | 0.0344 | **0.0301** |
+| Intra-protein dRMSD (Å) | 13.87 | **12.56** | 16.54 | **11.47** |
+| Intra-ligand dRMSD (Å) | — | — | 0.800 | **0.698** |
+| Complex RMSD (Å) | 25.63 | **20.84** | 34.74 | **17.83** |
+| GDT-TS | 0.038 | **0.129** | 0.011 | **0.128** |
+| GDT-HA | 0.006 | **0.053** | 0.002 | **0.060** |
+| **Confidence (pLDDT magnitude, ↑)** |  |  |  |  |
+| pLDDT (protein) | 0.280 | **0.316** | 0.233 | **0.546** |
+| pLDDT (complex) | 0.280 | **0.316** | 0.231 | **0.535** |
+| pLDDT (ligand) | — | — | 0.175 | **0.230** |
 
-<sub>Both columns: same `trainer.validate` pass on the same held-out fibril set (13 PDBs), identical config — only model weights differ. Aggregates are weighted across the two dataloaders (n=6 + n=7). Ligand rows are reported from `val_ligand` only. TM-score is USalign multi-chain complex alignment on the val pipeline's pred + GT CIFs; it scores the full fibril assembly (monomer fold *and* stacking geometry) in one number. Pearson(lDDT, pLDDT) is intentionally not reported in this headline table — at the current pLDDT magnitudes (still in the 0.2–0.5 band) the per-PDB Pearson swings on tiny shifts and is not a reliable calibration signal yet. See [`docs/val_compare.md`](docs/val_compare.md) for the per-dataloader breakdown and the Pearson numbers with caveats.</sub>
+<sub>Same `trainer.validate` pass on the same held-out fibril set, identical config — within each dataloader, only model weights differ between the OF3 base and OFF columns. Numbers shown per-dataloader (no aggregation): `val_unique_seq` (n=6, unseen sequences) on the left, `val_ligand` (n=7, ligand-bound) on the right. Ligand rows are reported from `val_ligand` only. TM-score is USalign multi-chain complex alignment on the val pipeline's pred + GT CIFs; it scores the full fibril assembly (monomer fold *and* stacking geometry) in one number. Pearson(lDDT, pLDDT) is intentionally not reported in this headline table — at the current pLDDT magnitudes (still in the 0.2–0.5 band) the per-PDB Pearson swings on tiny shifts and is not a reliable calibration signal yet. See [`docs/val_compare.md`](docs/val_compare.md) for per-PDB breakdowns and the Pearson numbers with caveats.</sub>
 <!-- METRICS_TABLE_END -->
 
 ## Head-to-head predictions
 
-Three held-out fibrils, viewed end-on (looking straight down the protofilament stacking axis) so the cross-section that defines the fold is visible. **Top row:** OpenFold3 base. **Middle:** experimental cryo-EM ground truth. **Bottom:** OpenFibrilFold. Columns were picked by per-PDB ΔTM (OpenFibrilFold − base OF3) within each dataloader, so the figure spans the full range of behaviour on the held-out set: **9qlu** — largest ΔTM on `val_unique_seq` (+0.253); **9ug1** — largest ΔTM on `val_ligand` (+0.324); **9ljb** — smallest ΔTM in either set (+0.066), a 1010-residue assembly where both models still struggle. Each column is rendered at the same physical scale; the prediction panels are coloured by per-residue lDDT against the experimental reference — saturated colour = aligned, faded toward white = mis-aligned. The number under each prediction is the per-PDB intra-complex lDDT computed with the *same* function the val pipeline uses (`openfold3.core.metrics.validation_all_atom.lddt`) on heavy atoms after Hungarian chain-permutation matching, so values are on the same scale as the metric table above.
+Three held-out fibrils, viewed end-on (looking straight down the protofilament stacking axis) so the cross-section that defines the fold is visible. **Top row:** OpenFold3 base. **Middle:** experimental cryo-EM ground truth. **Bottom:** OFF. Columns were picked by per-PDB ΔTM (OFF − base OF3) within each dataloader, so the figure spans the full range of behaviour on the held-out set: **9qlu** — largest ΔTM on `val_unique_seq` (+0.253); **9ug1** — largest ΔTM on `val_ligand` (+0.324); **9ljb** — smallest ΔTM in either set (+0.066), a 1010-residue assembly where both models still struggle. Each column is rendered at the same physical scale; the prediction panels are coloured by per-residue lDDT against the experimental reference — saturated colour = aligned, faded toward white = mis-aligned. The number under each prediction is the per-PDB intra-complex lDDT computed with the *same* function the val pipeline uses (`openfold3.core.metrics.validation_all_atom.lddt`) on heavy atoms after Hungarian chain-permutation matching, so values are on the same scale as the metric table above.
 
 <!-- HEAD_TO_HEAD_START -->
 <p align="center">
-  <img src="figures/h2h_grid.png" alt="3×3 head-to-head: OF3 base vs ground truth vs OpenFibrilFold on 9qlu (largest val_unique_seq ΔTM), 9ug1 (largest val_ligand ΔTM), 9ljb (smallest ΔTM in either val set)" width="780" />
+  <img src="figures/h2h_grid.png" alt="3×3 head-to-head: OF3 base vs ground truth vs OFF on 9qlu (largest val_unique_seq ΔTM), 9ug1 (largest val_ligand ΔTM), 9ljb (smallest ΔTM in either val set)" width="780" />
 </p>
 <!-- HEAD_TO_HEAD_END -->
 
@@ -102,17 +102,17 @@ For the full description, including the rationale for each loss-module change, s
 The following will be released alongside the public flip of this repository:
 
 - **Curated fibril dataset** — preprocessed structures, splits, MSAs, ribbon assignments, and polymorph groups.
-- **Trained model weights** — final OpenFibrilFold checkpoint and the inference config to use it.
+- **Trained model weights** — final OFF checkpoint and the inference config to use it.
 - **Training scripts** — full reproducible training pipeline (data prep → stage 1 → stage 2 → eval), including the OpenFold3 patch set.
 - **Manuscript / preprint** — describing the architectural changes, training recipe, and benchmarking results in detail.
 
 ## How it was built
 
-OpenFibrilFold was developed entirely as a **"vibe-coded"** project using [Claude Code](https://www.anthropic.com/claude-code) (Opus 4.6 and 4.7) with agent teams parallelizing data curation, patch development, debugging, ablation analysis, and figure generation. The OpenFold3 patch set, training infrastructure, dataset pipeline, polymorph machinery, and this repository were all written in collaboration with the model. End-to-end training fit on **3× NVIDIA RTX A6000 Ada** over the course of a single day.
+OFF was developed entirely as a **"vibe-coded"** project using [Claude Code](https://www.anthropic.com/claude-code) (Opus 4.6 and 4.7) with agent teams parallelizing data curation, patch development, debugging, ablation analysis, and figure generation. The OpenFold3 patch set, training infrastructure, dataset pipeline, polymorph machinery, and this repository were all written in collaboration with the model. End-to-end training fit on **3× NVIDIA RTX A6000 Ada** over the course of a single day.
 
 ## Acknowledgements
 
-OpenFibrilFold is a fine-tune of [OpenFold3](https://github.com/aqlaboratory/openfold-3) (AQ Laboratory). Both OpenFold3 and the reference [AlphaFold 3](https://www.nature.com/articles/s41586-024-07487-w) algorithm are foundational to this work. Cross-β fibril structures used for training and validation come from depositions in the [Protein Data Bank](https://www.rcsb.org/).
+OFF is a fine-tune of [OpenFold3](https://github.com/aqlaboratory/openfold-3) (AQ Laboratory). Both OpenFold3 and the reference [AlphaFold 3](https://www.nature.com/articles/s41586-024-07487-w) algorithm are foundational to this work. Cross-β fibril structures used for training and validation come from depositions in the [Protein Data Bank](https://www.rcsb.org/).
 
 ## Citation
 

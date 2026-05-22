@@ -1,6 +1,6 @@
 # Validation: OpenFibrilFold vs OpenFold3 base
 
-Side-by-side validation of OpenFibrilFold (exp43, step 1024) against the unmodified OpenFold3 ft3_v1 base weights, run through the same Lightning val pipeline: same dataloaders, same crops/templates, same diffusion sampling, same polymorph matching. The only thing that changes between the two columns is the model weights.
+Side-by-side validation of OFF (step 1024 checkpoint) against the unmodified OpenFold3 ft3_v1 base weights, run through the same Lightning val pipeline: same dataloaders, same crops/templates, same diffusion sampling, same polymorph matching. Within each dataloader, the only thing that changes between the OF3 base and OFF columns is the model weights.
 
 ## Val set
 
@@ -16,21 +16,21 @@ Two held-out dataloaders, full-sequence (no train-time cropping):
 USalign multi-chain complex alignment (`-mm 1 -ter 0`), pred CIF vs GT CIF from the same Lightning val pass. The score is computed on the full fibril assembly — chain correspondences are found by MM-align greedy search, so a single TM number captures both monomer fold *and* stacking geometry.
 
 <p align="center">
-  <img src="../figures/val_ligand_tm.png" alt="Per-PDB TM-score on val_ligand: base OF3 vs OpenFibrilFold" width="780" />
+  <img src="../figures/val_ligand_tm.png" alt="Per-PDB TM-score on val_ligand: base OF3 vs OFF" width="780" />
 </p>
 
 <p align="center">
-  <img src="../figures/val_unique_seq_tm.png" alt="Per-PDB TM-score on val_unique_seq: base OF3 vs OpenFibrilFold" width="780" />
+  <img src="../figures/val_unique_seq_tm.png" alt="Per-PDB TM-score on val_unique_seq: base OF3 vs OFF" width="780" />
 </p>
 
-| dataloader | n | mean TM (base OF3) | mean TM (OpenFibrilFold) | Δ |
+| dataloader | n | mean TM (base OF3) | mean TM (OFF) | Δ |
 |---|---:|---:|---:|---:|
 | `val_ligand`     | 7 | 0.376 | **0.610** | +0.235 |
 | `val_unique_seq` | 6 | 0.282 | **0.456** | +0.174 |
 
 **Per-PDB TM-score (winner highlighted):**
 
-| dataloader | pdb | L (res) | base OF3 | OpenFibrilFold | Δ | base RMSD (Å) | OFF RMSD (Å) |
+| dataloader | pdb | L (res) | base OF3 | OFF | Δ | base RMSD (Å) | OFF RMSD (Å) |
 |---|---|---:|---:|---:|---:|---:|---:|
 | val_ligand     | 8byn | 750 | 0.260 | **0.510** | +0.249 | 7.60 | 6.44 |
 | val_ligand     | 8fug | 730 | 0.351 | **0.657** | +0.305 | 4.11 | 4.58 |
@@ -46,7 +46,7 @@ USalign multi-chain complex alignment (`-mm 1 -ter 0`), pred CIF vs GT CIF from 
 | val_unique_seq | 9qlu |  330 | 0.204 | **0.457** | +0.253 | 7.09 | 3.54 |
 | val_unique_seq | 9u4l |  345 | 0.392 | **0.538** | +0.146 | 5.71 | 5.58 |
 
-OpenFibrilFold scores higher than base OF3 on every PDB in the set (per-PDB ΔTM range +0.066 to +0.324). The largest per-PDB improvement is 9ug1 (α-syn fibril, 10 chains): TM 0.573 / RMSD 5.09 Å → TM 0.897 / RMSD 2.32 Å. The smallest is 9ljb (a 1010-residue assembly), where both models still produce only partial folds.
+OFF scores higher than base OF3 on every PDB in the set (per-PDB ΔTM range +0.066 to +0.324). The largest per-PDB improvement is 9ug1 (α-syn fibril, 10 chains): TM 0.573 / RMSD 5.09 Å → TM 0.897 / RMSD 2.32 Å. The smallest is 9ljb (a 1010-residue assembly), where both models still produce only partial folds.
 
 ## Full Lightning val-pipeline metrics
 
@@ -54,7 +54,7 @@ Aggregate numbers below are weighted across all 13 val PDBs (6 + 7). Per-dataloa
 
 ### Structure (lDDT, ↑)
 
-| Metric | base OF3 (agg) | OpenFibrilFold (agg) | base val_unique_seq | OFF val_unique_seq | base val_ligand | OFF val_ligand |
+| Metric | base OF3 (agg) | OFF (agg) | base val_unique_seq | OFF val_unique_seq | base val_ligand | OFF val_ligand |
 |---|---:|---:|---:|---:|---:|---:|
 | Intra-protein lDDT | 0.477 | **0.614** | 0.477 | **0.538** | 0.477 | **0.679** |
 | Inter-protein lDDT | 0.193 | **0.482** | 0.168 | **0.425** | 0.214 | **0.531** |
@@ -63,7 +63,7 @@ Aggregate numbers below are weighted across all 13 val PDBs (6 + 7). Per-dataloa
 
 ### Ligand (lDDT, ↑) — `val_ligand` only (n=7)
 
-| Metric | base OF3 | OpenFibrilFold |
+| Metric | base OF3 | OFF |
 |---|---:|---:|
 | Intra-ligand lDDT | 0.876 | **0.893** |
 | Intra-ligand lDDT (uha) | 0.729 | **0.754** |
@@ -72,7 +72,7 @@ Aggregate numbers below are weighted across all 13 val PDBs (6 + 7). Per-dataloa
 
 ### Geometric (↓ lower better; GDT ↑)
 
-| Metric | base OF3 (agg) | OpenFibrilFold (agg) | base val_unique_seq | OFF val_unique_seq | base val_ligand | OFF val_ligand |
+| Metric | base OF3 (agg) | OFF (agg) | base val_unique_seq | OFF val_unique_seq | base val_ligand | OFF val_ligand |
 |---|---:|---:|---:|---:|---:|---:|
 | Distogram loss            | 1.375  | **1.180**  | 1.642 | **1.387** | 1.146 | **1.003** |
 | Scaled distogram loss     | 0.0412 | **0.0354** | 0.0493 | **0.0416** | 0.0344 | **0.0301** |
@@ -86,7 +86,7 @@ Aggregate numbers below are weighted across all 13 val PDBs (6 + 7). Per-dataloa
 
 ### Confidence calibration (↑)
 
-| Metric | base OF3 (agg) | OpenFibrilFold (agg) | base val_unique_seq | OFF val_unique_seq | base val_ligand | OFF val_ligand |
+| Metric | base OF3 (agg) | OFF (agg) | base val_unique_seq | OFF val_unique_seq | base val_ligand | OFF val_ligand |
 |---|---:|---:|---:|---:|---:|---:|
 | pLDDT (protein)             | 0.254 | **0.440** | 0.280 | **0.316** | 0.233 | **0.546** |
 | pLDDT (complex)             | 0.253 | **0.434** | 0.280 | **0.316** | 0.231 | **0.535** |
@@ -96,11 +96,11 @@ Aggregate numbers below are weighted across all 13 val PDBs (6 + 7). Per-dataloa
 | Pearson(lDDT, pLDDT) ligand¹² | 0.144 | -0.517 | — | — | 0.144 | -0.517 |
 
 ¹ Ligand metrics from `val_ligand` only.
-² **Pearson is unreliable below ~0.5 pLDDT magnitude.** When a model's pLDDT magnitudes are still bunched in the low band, the per-PDB correlation between lDDT and pLDDT swings wildly on tiny shifts in the cluster geometry — base OF3's high `val_unique_seq` Pearson (0.83) reflects this, not genuine calibration, and the negative ligand Pearson in OpenFibrilFold reflects the same problem from the other side. The Pearson rows should not be read as evidence of (or against) confidence calibration on this val set; that conclusion is gated on getting protein/complex pLDDT magnitudes consistently above ~0.5 first.
+² **Pearson is unreliable below ~0.5 pLDDT magnitude.** When a model's pLDDT magnitudes are still bunched in the low band, the per-PDB correlation between lDDT and pLDDT swings wildly on tiny shifts in the cluster geometry — base OF3's high `val_unique_seq` Pearson (0.83) reflects this, not genuine calibration, and the negative ligand Pearson in OFF reflects the same problem from the other side. The Pearson rows should not be read as evidence of (or against) confidence calibration on this val set; that conclusion is gated on getting protein/complex pLDDT magnitudes consistently above ~0.5 first.
 
 ### Clash rates (↓, mean atom-pair clash fraction)
 
-| Metric | base OF3 (agg) | OpenFibrilFold (agg) |
+| Metric | base OF3 (agg) | OFF (agg) |
 |---|---:|---:|
 | Inter-protein clash | 2.5e-7 | 2.9e-7 |
 | Inter protein–ligand clash¹ | 3.9e-7 | **0.0** |
@@ -109,11 +109,11 @@ Aggregate numbers below are weighted across all 13 val PDBs (6 + 7). Per-dataloa
 
 ## Reproducing
 
-The full pipeline lives in the private working repo. From the OpenFibrilFold side, the relevant artefacts are:
+The full pipeline lives in the private working repo. From the OFF side, the relevant artefacts are:
 
 - Val pipeline: standard `trainer.validate()` on the `runner_v3_exp43.yml` config, with only `restart_checkpoint_path` swapped between runs. `RIBBONFOLD_DISABLE_GATE=1` set on both to keep the template-embedder code path identical.
 - TM-score: [USalign](https://zhanggroup.org/US-align/), built from the published C++ source. Multi-chain complex mode (`-mm 1 -ter 0`) on pred + GT CIFs from `val_structures/epoch_0/`.
-- Bar chart: matplotlib, paired bars per PDB sorted by OpenFibrilFold TM descending.
+- Bar chart: matplotlib, paired bars per PDB sorted by OFF TM descending.
 
 ## Caveats
 

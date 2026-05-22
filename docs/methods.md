@@ -1,6 +1,6 @@
 # Methods
 
-OpenFibrilFold is a fine-tune of [OpenFold3](https://github.com/aqlaboratory/openfold-3) (an open-source reimplementation of AlphaFold 3) targeting amyloid fibril structure prediction. The model retains OF3's full architecture and is adapted through (1) targeted loss-module changes, (2) a ribbon-symmetric cropping strategy, (3) polymorph-aware training and evaluation, and (4) a fibril-specific dataset.
+OpenFibrilFold (OFF) is a fine-tune of [OpenFold3](https://github.com/aqlaboratory/openfold-3) (an open-source reimplementation of AlphaFold 3) targeting amyloid fibril structure prediction. The model retains OF3's full architecture and is adapted through (1) targeted loss-module changes, (2) a ribbon-symmetric cropping strategy, (3) polymorph-aware training and evaluation, and (4) a fibril-specific dataset.
 
 ## Data
 
@@ -11,7 +11,7 @@ OpenFibrilFold is a fine-tune of [OpenFold3](https://github.com/aqlaboratory/ope
 
 ## Architecture changes
 
-OpenFibrilFold preserves the OpenFold3 trunk (Pairformer + diffusion module + confidence heads) verbatim — no new modules. The fine-tuning logic is concentrated in the data, loss, and config layers.
+OFF preserves the OpenFold3 trunk (Pairformer + diffusion module + confidence heads) verbatim — no new modules. The fine-tuning logic is concentrated in the data, loss, and config layers.
 
 ### Ribbon-symmetric cropping
 - Standard OF3 spatial / interface crops can clip a fibril asymmetrically — e.g., 6 chains on one face and 1 on the other — yielding training samples whose β-sheet stacking is geometrically inconsistent.

@@ -1,7 +1,7 @@
-# PyMOL rendering script for OpenFibrilFold head-to-head overlays.
+# PyMOL rendering script for OFF (OpenFibrilFold) head-to-head overlays.
 #
 # For each PDB, loads the experimental ground-truth CIF, the OpenFold3 base
-# prediction CIF, and the OpenFibrilFold prediction CIF. Aligns both
+# prediction CIF, and the OFF prediction CIF. Aligns both
 # predictions onto the experimental backbone using cmd.super (structure-based;
 # robust to (a) the GT containing only resolved residues while predictions are
 # full-sequence, and (b) homo-multimer fibrils where sequence-based align
@@ -9,7 +9,7 @@
 # three structures overlaid:
 #   ground truth      grey   (translucent cartoon)
 #   OpenFold3 base    orange (cartoon, ligands as sticks)
-#   OpenFibrilFold    blue   (cartoon, ligands as sticks)
+#   OFF               blue   (cartoon, ligands as sticks)
 #
 # Usage:
 #     pymol -cq render_overlays.py -- \

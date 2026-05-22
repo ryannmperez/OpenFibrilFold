@@ -3,7 +3,7 @@
 Layout:
     cols (left→right): 9qlu (best val_unique_seq), 9ug1 (best val_ligand),
                        9ljb (hardest case in either val set)
-    rows (top→bottom): OF3 base, Ground truth, OpenFibrilFold
+    rows (top→bottom): OF3 base, Ground truth, OFF
 
 Each cell shows the panel image and lDDT + TM-score labels below.
 Row labels appear as rotated text on the left margin; column labels
@@ -26,14 +26,14 @@ PDBS = ["9qlu", "9ug1", "9ljb"]
 ROWS = [
     ("OF3 base",        "base", (227, 121, 21)),
     ("Ground truth",    "gt",   (50, 50, 50)),
-    ("OpenFibrilFold",  "off",  (28, 99, 173)),
+    ("OFF",             "off",  (28, 99, 173)),
 ]
 
 # Per-PDB lDDT computed via openfold3.core.metrics.validation_all_atom.lddt
 # (the function the val pipeline uses) on heavy atoms after Hungarian
 # chain-permutation matching. Same formula → same numerical scale as the
 # README metric table. Computed by scripts/per_pdb_val_metric.py on the
-# val_compare pred / gt CIFs (epoch 0 of trainer.validate on exp43
+# val_compare pred / gt CIFs (epoch 0 of trainer.validate on OFF
 # step 1024 vs base OF3 ft3_v1).
 LDDT = {
     "9qlu": {"base": 0.406, "off": 0.492},
