@@ -30,35 +30,41 @@ We are also interested in the model's capability to **predict ligand poses bound
 ## Highlights
 
 > [!NOTE]
-> Validation is a single full-sequence pass over the held-out fibril set, run end-to-end against unmodified OpenFold3 base weights using the *same* config (val pool, diffusion sampling, polymorph matching). The only difference between the two columns is the model weights.
+> Validation is a single full-sequence pass (`trainer.validate`) over the held-out fibril set, run end-to-end against unmodified OpenFold3 base weights using the *same* config (val pool, diffusion sampling, polymorph matching, MSAs, templates). The only difference between the two columns is the model weights. Two dataloaders, 13 PDBs total: `val_unique_seq` (n=6, rare-fold apo + ligand fibrils on unseen sequences) and `val_ligand` (n=7, ligand-bound fibrils). Numbers below are aggregates across both; per-dataloader and per-PDB breakdowns are in [`docs/val_compare.md`](docs/val_compare.md).
+
+<p align="center">
+  <img src="figures/val_ligand_tm.png" alt="Per-PDB fibril-assembly TM-score on val_ligand: base OF3 vs OpenFibrilFold (paired bars, OpenFibrilFold wins 7/7)" width="780" />
+</p>
+
+<sub>Fibril-assembly TM-score on `val_ligand` (USalign multi-chain complex mode). OpenFibrilFold wins on every PDB; 7/7 cross the same-fold threshold (TM ≥ 0.5) versus 1/7 for base OF3. Star case: 9ug1, TM 0.57 → 0.90.</sub>
 
 <!-- METRICS_TABLE_START -->
 | Metric | OpenFold3 base | OpenFibrilFold |
 | --- | --- | --- |
-| **Structure (lDDT, ↑)** |  |  |
-| Intra-protein lDDT | 0.4596 | **0.5516** |
-| Inter-protein lDDT | 0.2479 | **0.3876** |
-| Intra-complex lDDT | 0.4602 | **0.5515** |
-| Modified residues lDDT | **0.9506** | 0.8435 |
+| **Structure (lDDT / TM, ↑)** |  |  |
+| Intra-protein lDDT | 0.477 | **0.614** |
+| Inter-protein lDDT | 0.193 | **0.482** |
+| Intra-complex lDDT | 0.479 | **0.615** |
+| TM-score (USalign, complex) | 0.333 | **0.539** |
 | **Ligand (lDDT, ↑)** |  |  |
-| Intra-ligand lDDT | 0.8077 | **0.8790** |
-| Intra-ligand lDDT (uha) | 0.6339 | **0.7006** |
-| Inter-ligand lDDT | 0.2510 | **0.3624** |
-| Protein–ligand lDDT | 0.0560 | **0.2029** |
+| Intra-ligand lDDT | 0.876 | **0.893** |
+| Intra-ligand lDDT (uha) | 0.729 | **0.754** |
+| Inter-ligand lDDT | 0.232 | **0.313** |
+| Protein–ligand lDDT | 0.069 | **0.086** |
 | **Geometric (↓ lower better; GDT ↑)** |  |  |
-| Distogram loss | 1.4840 | **1.3335** |
-| Scaled distogram loss | 0.0445 | **0.0400** |
-| Intra-protein dRMSD (Å) | 15.672 | **10.857** |
-| Intra-ligand dRMSD (Å) | 1.035 | **0.656** |
-| Complex RMSD (Å) | 31.663 | **24.961** |
-| GDT-TS | 0.0168 | **0.1181** |
-| GDT-HA | 0.0028 | **0.0595** |
-| **Confidence calibration (↑)** |  |  |
-| Pearson(lDDT, pLDDT) protein | 0.0522 | **0.6542** |
-| Pearson(lDDT, pLDDT) ligand | 0.7801 | **0.9103** |
-| Pearson(lDDT, pLDDT) complex | 0.0594 | **0.6516** |
+| Distogram loss | 1.375 | **1.180** |
+| Scaled distogram loss | 0.0412 | **0.0354** |
+| Intra-protein dRMSD (Å) | 15.31 | **11.97** |
+| Intra-ligand dRMSD (Å) | 0.800 | **0.698** |
+| Complex RMSD (Å) | 30.53 | **19.22** |
+| GDT-TS | 0.024 | **0.129** |
+| GDT-HA | 0.004 | **0.057** |
+| **Confidence (pLDDT magnitude, ↑)** |  |  |
+| pLDDT (protein) | 0.254 | **0.440** |
+| pLDDT (complex) | 0.253 | **0.434** |
+| pLDDT (ligand) | 0.175 | **0.230** |
 
-<sub>Both columns: single full-sequence validation pass on the same held-out fibril set, identical config (diffusion sampling, polymorph matching, MSAs, templates) — the only difference is model weights. *Modified residues lDDT* covers a small set of non-standard residues (D-amino acids, phospho-residues) that already appear in OpenFold3's pretraining; OpenFibrilFold is currently neutral-to-mildly-negative there, which we expect to recover as the modified-residue inventory in the fine-tuning set grows.</sub>
+<sub>Both columns: same `trainer.validate` pass on the same held-out fibril set (13 PDBs), identical config — only model weights differ. Aggregates are weighted across the two dataloaders (n=6 + n=7). Ligand rows are reported from `val_ligand` only. TM-score is USalign multi-chain complex alignment on the val pipeline's pred + GT CIFs; it scores the full fibril assembly (monomer fold *and* stacking geometry) in one number. Pearson(lDDT, pLDDT) is intentionally not reported in this headline table — at the current pLDDT magnitudes (still in the 0.2–0.5 band) the per-PDB Pearson swings on tiny shifts and is not a reliable calibration signal yet. See [`docs/val_compare.md`](docs/val_compare.md) for the per-dataloader breakdown and the Pearson numbers with caveats.</sub>
 <!-- METRICS_TABLE_END -->
 
 ## Head-to-head predictions
