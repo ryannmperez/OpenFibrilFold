@@ -74,8 +74,6 @@ Aggregate numbers below are weighted across all 13 val PDBs (6 + 7). Per-dataloa
 
 | Metric | base OF3 (agg) | OFF (agg) | base val_unique_seq | OFF val_unique_seq | base val_ligand | OFF val_ligand |
 |---|---:|---:|---:|---:|---:|---:|
-| Distogram loss            | 1.375  | **1.180**  | 1.642 | **1.387** | 1.146 | **1.003** |
-| Scaled distogram loss     | 0.0412 | **0.0354** | 0.0493 | **0.0416** | 0.0344 | **0.0301** |
 | Intra-protein dRMSD (Å)   | 15.31  | **11.97**  | 13.87 | **12.56** | 16.54 | **11.47** |
 | Intra-ligand dRMSD (Å)¹   | 0.800  | **0.698**  | — | — | 0.800 | **0.698** |
 | Complex RMSD (Å)          | 30.53  | **19.22**  | 25.63 | **20.84** | 34.74 | **17.83** |

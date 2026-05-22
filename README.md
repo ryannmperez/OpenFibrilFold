@@ -58,8 +58,6 @@ We are also interested in the model's capability to **predict ligand poses bound
 | Inter-ligand lDDT | — | — | 0.232 | **0.313** |
 | Protein–ligand lDDT | — | — | 0.069 | **0.086** |
 | **Geometric (↓ lower better; GDT ↑)** |  |  |  |  |
-| Distogram loss | 1.642 | **1.387** | 1.146 | **1.003** |
-| Scaled distogram loss | 0.0493 | **0.0416** | 0.0344 | **0.0301** |
 | Intra-protein dRMSD (Å) | 13.87 | **12.56** | 16.54 | **11.47** |
 | Intra-ligand dRMSD (Å) | — | — | 0.800 | **0.698** |
 | Complex RMSD (Å) | 25.63 | **20.84** | 34.74 | **17.83** |
