@@ -44,6 +44,13 @@ We are also interested in the model's capability to **predict ligand poses bound
 
 <sub>Per-PDB fibril-assembly TM-score on `val_unique_seq` (USalign multi-chain complex mode). `val_unique_seq` holds out the protein sequence entirely, so the model has never seen these chains at train time — the harder set. OFF scores higher than base OF3 on every PDB; per-PDB margins range from +0.07 (9ljb, 1010 residues) to +0.25 (9cww, 9qlu).</sub>
 
+**Mean TM-score per dataloader (USalign, multi-chain complex):**
+
+| dataloader | n | mean TM (OF3 base) | mean TM (OFF) | Δ |
+| --- | ---: | ---: | ---: | ---: |
+| `val_ligand`     | 7 | 0.376 | **0.610** | **+0.235** |
+| `val_unique_seq` | 6 | 0.282 | **0.456** | **+0.174** |
+
 <!-- METRICS_TABLE_START -->
 | Metric | OF3 base<br/>val_unique_seq | OFF<br/>val_unique_seq | OF3 base<br/>val_ligand | OFF<br/>val_ligand |
 | --- | ---: | ---: | ---: | ---: |
@@ -51,7 +58,7 @@ We are also interested in the model's capability to **predict ligand poses bound
 | Intra-protein lDDT | 0.477 | **0.538** | 0.477 | **0.679** |
 | Inter-protein lDDT | 0.168 | **0.425** | 0.214 | **0.531** |
 | Intra-complex lDDT | 0.477 | **0.538** | 0.480 | **0.681** |
-| TM-score (USalign, complex) | 0.282 | **0.456** | 0.376 | **0.610** |
+| Mean TM-score (USalign, complex) | 0.282 | **0.456** | 0.376 | **0.610** |
 | **Ligand (lDDT, ↑)** |  |  |  |  |
 | Intra-ligand lDDT | — | — | 0.876 | **0.893** |
 | Intra-ligand lDDT (uha) | — | — | 0.729 | **0.754** |
