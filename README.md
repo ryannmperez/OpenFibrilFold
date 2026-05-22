@@ -36,7 +36,13 @@ We are also interested in the model's capability to **predict ligand poses bound
   <img src="figures/val_ligand_tm.png" alt="Per-PDB fibril-assembly TM-score on val_ligand: base OF3 vs OpenFibrilFold (paired bars)" width="780" />
 </p>
 
-<sub>Per-PDB fibril-assembly TM-score on `val_ligand` (USalign multi-chain complex mode). OpenFibrilFold scores higher than base OF3 on every PDB in the set; per-PDB margins range from +0.15 to +0.32. The `val_unique_seq` breakdown is in [`docs/val_compare.md`](docs/val_compare.md).</sub>
+<sub>Per-PDB fibril-assembly TM-score on `val_ligand` (USalign multi-chain complex mode). OpenFibrilFold scores higher than base OF3 on every PDB in the set; per-PDB margins range from +0.15 to +0.32.</sub>
+
+<p align="center">
+  <img src="figures/val_unique_seq_tm.png" alt="Per-PDB fibril-assembly TM-score on val_unique_seq: base OF3 vs OpenFibrilFold (paired bars)" width="780" />
+</p>
+
+<sub>Per-PDB fibril-assembly TM-score on `val_unique_seq` (USalign multi-chain complex mode). `val_unique_seq` holds out the protein sequence entirely, so the model has never seen these chains at train time — the harder set. OpenFibrilFold scores higher than base OF3 on every PDB; per-PDB margins range from +0.07 (9ljb, 1010 residues) to +0.25 (9cww, 9qlu).</sub>
 
 <!-- METRICS_TABLE_START -->
 | Metric | OpenFold3 base | OpenFibrilFold |
