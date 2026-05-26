@@ -18,19 +18,16 @@
 
 ## Overview
 
-OpenFibrilFold (OFF) adapts [OpenFold3](https://github.com/aqlaboratory/openfold-3) (an open reimplementation of AlphaFold 3) to the structural-prediction problem of **amyloid fibrils**: ribbon-like protein assemblies built from cross-β–stacked monomers, often in many coexisting *polymorphs*. Off-the-shelf folding models tend to either collapse onto a single fibril packing or produce geometrically-inconsistent ribbons because their cropping, distogram, and confidence machinery weren't designed for periodic ribbon assemblies. OFF introduces:
+OpenFibrilFold (OFF) adapts [OpenFold3](https://github.com/aqlaboratory/openfold-3), to the structural prediction problem of amyloid fibrils. OFF attempts to fix model collapse when predicting fibrils in complex with stacked small molecule ligands. OFF introduces:
 
 - a **ribbon-symmetric crop** that preserves both faces of the cross-β stack during training,
 - a **cross-ribbon distogram weight** that emphasizes the fold-defining inter-strand contacts,
 - **polymorph-aware training and evaluation**, including per-sample best-matching ground-truth selection and a sample-diversity loss against fibril polymorphs,
 - a **fibril-specific dataset** of publicly deposited PDB structures, curated for split cleanliness and binding-site diversity.
 
-We are also interested in the model's capability to **predict ligand poses bound to fibrils**, since many recent cryo-EM amyloid depositions include co-bound small molecules at potential drug-discovery sites. Ligand-specific lDDT metrics are reported alongside the protein metrics below.
-
 ## Highlights
 
-> [!NOTE]
-> Validation is a single full-sequence pass (`trainer.validate`) over the held-out fibril set, run end-to-end against unmodified OpenFold3 base weights using the *same* config (val pool, diffusion sampling, polymorph matching, MSAs, templates). Within each dataloader, the only difference between the OF3 base and OFF columns is the model weights. Two dataloaders, 13 PDBs total: `val_unique_seq` (n=6, rare-fold apo + ligand fibrils on unseen sequences) and `val_ligand` (n=7, ligand-bound fibrils). Numbers below are reported per-dataloader (no aggregation); per-PDB breakdowns are in [`docs/val_compare.md`](docs/val_compare.md).
+We split the held-out fibril set into two cohorts with different difficulty profiles. `val_unique_seq` (n=6) holds rare-fold apo and ligand fibrils on sequences never seen during training, isolating performance on novel folds. `val_ligand` (n=7) is exclusively ligand-bound fibrils, where small-molecule pose prediction is the harder objective — numbers below are reported per-cohort, never aggregated.
 
 <p align="center">
   <img src="figures/val_ligand_tm.png" alt="Per-PDB fibril-assembly TM-score on val_ligand: base OF3 vs OFF (paired bars)" width="780" />
