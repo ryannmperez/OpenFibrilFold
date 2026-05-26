@@ -83,19 +83,17 @@ Three held-out fibrils, viewed end-on (looking straight down the protofilament s
 </p>
 <!-- HEAD_TO_HEAD_END -->
 
-## Methods (in brief)
+## Methods in Brief
 
 - **Backbone:** OpenFold3 trunk (Pairformer + diffusion module + confidence heads), unmodified.
-- **Training set:** publicly deposited cryo-EM amyloid-fibril structures from the PDB, filtered by resolution (≤ 9 Å) and minimum chain count for ribbon-axis assignment, then deduplicated by entity sequence and ligand binding-site clustering. Train / validation split is held fixed across all experiments.
-- **Polymorph determination:** structures are grouped by protein identity (UniProt accession), then clustered within each group by mean-absolute-difference of CA–CA distance matrices (≈ 4 Å threshold) — distinct fibril packings of the same protein become distinct polymorphs. Ligand-bound structures additionally contribute one binding-site polymorph per resolved site.
-- **Crop:** ribbon-symmetric post-processor — ratio-capped at 1.3, token budget 484.
+- **Training set:** structures from the [Amyloid Atlas](https://people.mbi.ucla.edu/sawaya/amyloidatlas/), filtered for resolution and ribbon-axis-compatible chain count, then deduplicated by entity sequence.
+- **Validation sets:** held out from more recent PDB depositions in two cohorts — the Unique Sequences Validation Set (entries whose protein sequence does not appear in training) and the Unique Ligands Validation Set (recent ligand-bound fibrils).
+- **Polymorph determination:** as described in [RibbonFold (Guo et al., PNAS 2025)](https://www.pnas.org/doi/10.1073/pnas.2501321122) — two structures sharing sequence identity with mutual-Q < 0.4 are treated as distinct polymorphs.
+- **Crop:** Crops are ribbon-symmetric.
 - **Distogram:** explicit cross-ribbon weight on β-stacking pairs.
-- **Diffusion loss:** inter-chain weights tuned for stacked, in-register β-strands (`intra=1`, `adjacent=100`, `other=5`).
-- **Polymorph awareness:** per-sample best-matching polymorph as ground truth (training and val), plus a softmax-entropy diversity loss across diffusion samples.
-- **Stages:** AF3-style two-stage fine-tune (structural trunk first, confidence-only second).
 - **Hardware:** 3× NVIDIA RTX A6000 Ada (DDP), bf16-mixed precision, 32 diffusion samples per structure at train and val. End-to-end training in ~1 day.
 
-For the full description, including the rationale for each loss-module change, see [`docs/methods.md`](docs/methods.md).
+For the full description, see [`docs/methods.md`](docs/methods.md).
 
 ## Upcoming
 
