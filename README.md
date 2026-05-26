@@ -11,6 +11,7 @@
 <p align="center">
   <a href="https://github.com/aqlaboratory/openfold-3"><img alt="upstream" src="https://img.shields.io/badge/built_on-OpenFold3-2b6cb0.svg"></a>
   <a href="LICENSE"><img alt="license" src="https://img.shields.io/badge/license-Apache--2.0-1f6feb.svg"></a>
+  <img alt="version" src="https://img.shields.io/badge/version-0.1-2b6cb0.svg">
   <img alt="status" src="https://img.shields.io/badge/status-research_preview-orange.svg">
 </p>
 
@@ -97,7 +98,7 @@ For the full description, see [`docs/methods.md`](docs/methods.md).
 
 ## Limitations
 
-OFF specializes in amyloid fibrils and offers no benefit over base OpenFold3 on general protein targets. The two validation cohorts hold only six and seven structures each, so the cohort averages carry wide uncertainty and we report individual PDB scores alongside the aggregates. Ligand placement remains the weakest aspect of the model, with very low protein to ligand lDDT and ligand pLDDT well below typical OpenFold3 confidence values.
+OFF specializes in amyloid fibrils and offers no benefit over base OpenFold3 on general protein targets. Ligand placement remains the weakest aspect of the model, with very low protein to ligand lDDT and ligand pLDDT well below typical OpenFold3 confidence values.
 
 ## Upcoming
 
@@ -132,4 +133,5 @@ If this work is useful to you, please cite the repository:
 
 ## Release notes
 
+- **2026-05-26 — v0.1.** First tagged research-preview release. Public README with per-cohort metric tables, paired bar charts, and 3×3 head-to-head grid on the Unique Sequences and Unique Ligands validation sets.
 - **2026-05-07** — initial private snapshot. Renamed from FibrilFold → OpenFibrilFold.
