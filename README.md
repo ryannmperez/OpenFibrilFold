@@ -95,6 +95,10 @@ Three held-out fibrils, viewed end-on (looking straight down the protofilament s
 
 For the full description, see [`docs/methods.md`](docs/methods.md).
 
+## Limitations
+
+OFF specializes in amyloid fibrils and offers no benefit over base OpenFold3 on general protein targets. The two validation cohorts hold only six and seven structures each, so the cohort averages carry wide uncertainty and we report individual PDB scores alongside the aggregates. Ligand placement remains the weakest aspect of the model, with very low protein to ligand lDDT and ligand pLDDT well below typical OpenFold3 confidence values.
+
 ## Upcoming
 
 The following will be released alongside the public flip of this repository:
