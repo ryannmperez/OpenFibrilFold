@@ -104,10 +104,6 @@ The following will be released alongside the public flip of this repository:
 - **Training scripts** — full reproducible training pipeline (data prep → stage 1 → stage 2 → eval), including the OpenFold3 patch set.
 - **Manuscript / preprint** — describing the architectural changes, training recipe, and benchmarking results in detail.
 
-## How it was built
-
-OFF was developed entirely as a **"vibe-coded"** project using [Claude Code](https://www.anthropic.com/claude-code) (Opus 4.6 and 4.7) with agent teams parallelizing data curation, patch development, debugging, ablation analysis, and figure generation. The OpenFold3 patch set, training infrastructure, dataset pipeline, polymorph machinery, and this repository were all written in collaboration with the model. End-to-end training fit on **3× NVIDIA RTX A6000 Ada** over the course of a single day.
-
 ## Acknowledgements
 
 OFF is a fine-tune of [OpenFold3](https://github.com/aqlaboratory/openfold-3) (AQ Laboratory). Both OpenFold3 and the reference [AlphaFold 3](https://www.nature.com/articles/s41586-024-07487-w) algorithm are foundational to this work. Cross-β fibril structures used for training and validation come from depositions in the [Protein Data Bank](https://www.rcsb.org/).
