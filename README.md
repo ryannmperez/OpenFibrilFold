@@ -37,40 +37,37 @@ We split the held-out fibril set into two cohorts with different difficulty prof
   <img src="figures/val_unique_seq_tm.png" alt="Per-PDB fibril-assembly TM-score on the Unique Sequences Validation Set: Base OF3 vs OFF (paired bars)" width="780" />
 </p>
 
-**Mean TM-score per dataloader (USalign, multi-chain complex):**
+**Mean TM-score per cohort (USalign, multi-chain complex, normalized by GT length):**
 
 | Validation cohort | n | mean TM (OF3 base) | mean TM (OFF) | Δ |
 | --- | ---: | ---: | ---: | ---: |
-| Unique Ligands Validation Set     | 7 | 0.376 | **0.610** | **+0.235** |
-| Unique Sequences Validation Set   | 6 | 0.282 | **0.456** | **+0.174** |
+| Unique Ligands Validation Set     | 7 | 0.228 | **0.410** | **+0.182** |
+| Unique Sequences Validation Set   | 6 | 0.238 | **0.393** | **+0.155** |
 
 <!-- METRICS_TABLE_START -->
+All numbers below are computed on the AF3-oracle-picked sample (5 diffusion seeds per PDB, pick by `sample_ranking_score = 0.8·ipTM + 0.2·pTM − 0.5·has_clash + 1.5·disorder`) from the full-assembly predict-mode run — never cropped to GT. Source: `code_review_2026_05_25/metrics` package on `output/af3_pick_manifest_2026_05_26.json`.
+
 | Metric | OF3 base<br/>Unique Sequences Validation Set | OFF<br/>Unique Sequences Validation Set | OF3 base<br/>Unique Ligands Validation Set | OFF<br/>Unique Ligands Validation Set |
 | --- | ---: | ---: | ---: | ---: |
 | **Structure (lDDT / TM, ↑)** |  |  |  |  |
-| Intra-protein lDDT | 0.477 | **0.538** | 0.477 | **0.679** |
-| Inter-protein lDDT | 0.168 | **0.425** | 0.214 | **0.531** |
-| Intra-complex lDDT | 0.477 | **0.538** | 0.480 | **0.681** |
-| Mean TM-score (USalign, complex) | 0.282 | **0.456** | 0.376 | **0.610** |
-| **Ligand (lDDT, ↑)** |  |  |  |  |
-| Intra-ligand lDDT | — | — | 0.876 | **0.893** |
-| Intra-ligand lDDT (uha) | — | — | 0.729 | **0.754** |
-| Inter-ligand lDDT | — | — | 0.232 | **0.313** |
-| Protein–ligand lDDT | — | — | 0.069 | **0.086** |
+| Intra-protein lDDT | 0.367 | **0.436** | 0.375 | **0.472** |
+| Inter-protein lDDT | 0.053 | **0.263** | 0.094 | **0.185** |
+| Intra-complex lDDT | 0.136 | **0.308** | 0.170 | **0.262** |
+| Mean TM-score (USalign, complex) | 0.238 | **0.393** | 0.228 | **0.410** |
 | **Geometric (↓ lower better; GDT ↑)** |  |  |  |  |
-| Intra-protein dRMSD (Å) | 13.87 | **12.56** | 16.54 | **11.47** |
-| Intra-ligand dRMSD (Å) | — | — | 0.800 | **0.698** |
-| Complex RMSD (Å) | 25.63 | **20.84** | 34.74 | **17.83** |
-| GDT-TS | 0.038 | **0.129** | 0.011 | **0.128** |
-| GDT-HA | 0.006 | **0.053** | 0.002 | **0.060** |
-| **Confidence (pLDDT magnitude, ↑)** |  |  |  |  |
-| pLDDT (protein) | 0.280 | **0.316** | 0.233 | **0.546** |
-| pLDDT (complex) | 0.280 | **0.316** | 0.231 | **0.535** |
-| pLDDT (ligand) | — | — | 0.175 | **0.230** |
-| **Confidence calibration — Pearson(lDDT, pLDDT)** |  |  |  |  |
-| Pearson (protein) | 0.826 | 0.415 | -0.202 | 0.411 |
-| Pearson (complex) | 0.826 | 0.415 | -0.124 | 0.362 |
-| Pearson (ligand) | — | — | 0.144 | -0.517 |
+| Intra-protein dRMSD (Å) | 29.02 | **13.05** | 28.73 | **17.25** |
+| Complex RMSD (Å) | 35.06 | **25.78** | 43.38 | **34.39** |
+| GDT-HA | 0.000 | **0.002** | 0.000 | **0.002** |
+| **Ligand stacking (median over PDBs)** |  |  |  |  |
+| Median ligand RMSD (Å, ↓) | — | — | 30.04 | **29.10** |
+| Median ligand-COM distance (Å, ↓) | — | — | 29.57 | **28.58** |
+| Frac ligands < 5 Å (↑) | — | — | 0.000 | 0.000 |
+| Global protein RMSD on lig PDBs (Å, ↓) | — | — | 44.74 | **32.00** |
+| **Confidence (↑)** |  |  |  |  |
+| pLDDT | 0.236 | **0.258** | 0.240 | **0.277** |
+| ipTM | 0.188 | **0.241** | 0.210 | **0.305** |
+| pTM | 0.215 | **0.253** | 0.226 | **0.319** |
+| sample_ranking_score | 0.505 | **0.633** | 0.555 | 0.522 |
 <!-- METRICS_TABLE_END -->
 
 ## Head-to-head predictions
@@ -79,7 +76,7 @@ Three held-out fibrils, viewed end-on (looking straight down the protofilament s
 
 <!-- HEAD_TO_HEAD_START -->
 <p align="center">
-  <img src="figures/h2h_grid.png" alt="3×3 head-to-head: Base OF3 vs ground truth vs OFF on 9qlu (largest Unique Sequences Validation Set ΔTM), 9ug1 (largest Unique Ligands Validation Set ΔTM), 9ljb (smallest ΔTM in either set)" width="780" />
+  <img src="figures/h2h_grid.png" alt="3×3 head-to-head on AF3-picked predict-mode samples: Base OF3 vs ground truth vs OFF on 9qlu (largest Unique Sequences Validation Set ΔTM), 9ug1 (largest Unique Ligands Validation Set ΔTM), 9ljb (smallest ΔTM in either set)" width="780" />
 </p>
 <!-- HEAD_TO_HEAD_END -->
 

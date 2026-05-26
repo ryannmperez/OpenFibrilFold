@@ -1,0 +1,210 @@
+{
+  "8byn": {
+    "cohort": "val_ligand",
+    "gt_cif": "data/assemblies/8byn_assembly.cif",
+    "base": {
+      "sample": 2,
+      "sample_ranking_score": 0.7423067092895508,
+      "cif": "output/run_validation_base_of3_v4_oom2/8byn/seed_2746317213/8byn_seed_2746317213_sample_2_model.cif",
+      "source_root": "output/run_validation_base_of3_v4_oom2"
+    },
+    "ft": {
+      "sample": 5,
+      "sample_ranking_score": 0.4790874719619751,
+      "cif": "output/run_validation_exp43_v4_oom2_ema/8byn/seed_2746317213/8byn_seed_2746317213_sample_5_model.cif",
+      "source_root": "output/run_validation_exp43_v4_oom2_ema"
+    }
+  },
+  "8fug": {
+    "cohort": "val_ligand",
+    "gt_cif": "data/assemblies/8fug_assembly.cif",
+    "base": {
+      "sample": 5,
+      "sample_ranking_score": 0.7733345627784729,
+      "cif": "output/run_validation_base_of3_v4_n5/8fug/seed_2746317213/8fug_seed_2746317213_sample_5_model.cif",
+      "source_root": "output/run_validation_base_of3_v4_n5"
+    },
+    "ft": {
+      "sample": 3,
+      "sample_ranking_score": 0.7288588881492615,
+      "cif": "output/run_validation_exp43_v4_n5_ema/8fug/seed_2746317213/8fug_seed_2746317213_sample_3_model.cif",
+      "source_root": "output/run_validation_exp43_v4_n5_ema"
+    }
+  },
+  "9e8v": {
+    "cohort": "val_ligand",
+    "gt_cif": "data/assemblies/9e8v_assembly.cif",
+    "base": {
+      "sample": 4,
+      "sample_ranking_score": 0.46148860454559326,
+      "cif": "output/run_validation_base_of3_v4_n5/9e8v/seed_2746317213/9e8v_seed_2746317213_sample_4_model.cif",
+      "source_root": "output/run_validation_base_of3_v4_n5"
+    },
+    "ft": {
+      "sample": 3,
+      "sample_ranking_score": 0.6240907907485962,
+      "cif": "output/run_validation_exp43_v4_n5_ema/9e8v/seed_2746317213/9e8v_seed_2746317213_sample_3_model.cif",
+      "source_root": "output/run_validation_exp43_v4_n5_ema"
+    }
+  },
+  "9e8w": {
+    "cohort": "val_ligand",
+    "gt_cif": "data/assemblies/9e8w_assembly.cif",
+    "base": {
+      "sample": 4,
+      "sample_ranking_score": 0.5094299912452698,
+      "cif": "output/run_validation_base_of3_v4_n5/9e8w/seed_2746317213/9e8w_seed_2746317213_sample_4_model.cif",
+      "source_root": "output/run_validation_base_of3_v4_n5"
+    },
+    "ft": {
+      "sample": 3,
+      "sample_ranking_score": 0.503598153591156,
+      "cif": "output/run_validation_exp43_v4_n5_ema/9e8w/seed_2746317213/9e8w_seed_2746317213_sample_3_model.cif",
+      "source_root": "output/run_validation_exp43_v4_n5_ema"
+    }
+  },
+  "9e8x": {
+    "cohort": "val_ligand",
+    "gt_cif": "data/assemblies/9e8x_assembly.cif",
+    "base": {
+      "sample": 1,
+      "sample_ranking_score": 0.4482452869415283,
+      "cif": "output/run_validation_base_of3_v4_n5/9e8x/seed_2746317213/9e8x_seed_2746317213_sample_1_model.cif",
+      "source_root": "output/run_validation_base_of3_v4_n5"
+    },
+    "ft": {
+      "sample": 3,
+      "sample_ranking_score": 0.4485089182853699,
+      "cif": "output/run_validation_exp43_v4_n5_ema/9e8x/seed_2746317213/9e8x_seed_2746317213_sample_3_model.cif",
+      "source_root": "output/run_validation_exp43_v4_n5_ema"
+    }
+  },
+  "9e8y": {
+    "cohort": "val_ligand",
+    "gt_cif": "data/assemblies/9e8y_assembly.cif",
+    "base": {
+      "sample": 2,
+      "sample_ranking_score": 0.4518739581108093,
+      "cif": "output/run_validation_base_of3_v4_n5/9e8y/seed_2746317213/9e8y_seed_2746317213_sample_2_model.cif",
+      "source_root": "output/run_validation_base_of3_v4_n5"
+    },
+    "ft": {
+      "sample": 2,
+      "sample_ranking_score": 0.5061074495315552,
+      "cif": "output/run_validation_exp43_v4_n5_ema/9e8y/seed_2746317213/9e8y_seed_2746317213_sample_2_model.cif",
+      "source_root": "output/run_validation_exp43_v4_n5_ema"
+    }
+  },
+  "9ug1": {
+    "cohort": "val_ligand",
+    "gt_cif": "data/assemblies/9ug1_assembly.cif",
+    "base": {
+      "sample": 2,
+      "sample_ranking_score": 0.4992280602455139,
+      "cif": "output/run_validation_base_of3_v4_n5/9ug1/seed_2746317213/9ug1_seed_2746317213_sample_2_model.cif",
+      "source_root": "output/run_validation_base_of3_v4_n5"
+    },
+    "ft": {
+      "sample": 2,
+      "sample_ranking_score": 0.36299240589141846,
+      "cif": "output/run_validation_exp43_v4_n5_ema/9ug1/seed_2746317213/9ug1_seed_2746317213_sample_2_model.cif",
+      "source_root": "output/run_validation_exp43_v4_n5_ema"
+    }
+  },
+  "9cww": {
+    "cohort": "val_unique_seq",
+    "gt_cif": "data/assemblies/9cww_assembly.cif",
+    "base": {
+      "sample": 5,
+      "sample_ranking_score": 0.6601437330245972,
+      "cif": "output/run_validation_base_of3_v4_n5/9cww/seed_2746317213/9cww_seed_2746317213_sample_5_model.cif",
+      "source_root": "output/run_validation_base_of3_v4_n5"
+    },
+    "ft": {
+      "sample": 4,
+      "sample_ranking_score": 0.6806436777114868,
+      "cif": "output/run_validation_exp43_v4_n5_ema/9cww/seed_2746317213/9cww_seed_2746317213_sample_4_model.cif",
+      "source_root": "output/run_validation_exp43_v4_n5_ema"
+    }
+  },
+  "9hx4": {
+    "cohort": "val_unique_seq",
+    "gt_cif": "data/assemblies/9hx4_assembly.cif",
+    "base": {
+      "sample": 2,
+      "sample_ranking_score": 0.3897046744823456,
+      "cif": "output/run_validation_base_of3_v4_oom2/9hx4/seed_2746317213/9hx4_seed_2746317213_sample_2_model.cif",
+      "source_root": "output/run_validation_base_of3_v4_oom2"
+    },
+    "ft": {
+      "sample": 1,
+      "sample_ranking_score": 0.7938010692596436,
+      "cif": "output/run_validation_exp43_v4_oom2_ema/9hx4/seed_2746317213/9hx4_seed_2746317213_sample_1_model.cif",
+      "source_root": "output/run_validation_exp43_v4_oom2_ema"
+    }
+  },
+  "9ljb": {
+    "cohort": "val_unique_seq",
+    "gt_cif": "data/assemblies/9ljb_assembly.cif",
+    "base": {
+      "sample": 5,
+      "sample_ranking_score": 0.31746962666511536,
+      "cif": "output/run_validation_base_of3_v4_n5/9ljb/seed_2746317213/9ljb_seed_2746317213_sample_5_model.cif",
+      "source_root": "output/run_validation_base_of3_v4_n5"
+    },
+    "ft": {
+      "sample": 3,
+      "sample_ranking_score": 0.4455789029598236,
+      "cif": "output/run_validation_exp43_v4_n5_ema/9ljb/seed_2746317213/9ljb_seed_2746317213_sample_3_model.cif",
+      "source_root": "output/run_validation_exp43_v4_n5_ema"
+    }
+  },
+  "9m5q": {
+    "cohort": "val_unique_seq",
+    "gt_cif": "data/assemblies/9m5q_assembly.cif",
+    "base": {
+      "sample": 2,
+      "sample_ranking_score": 0.6721012592315674,
+      "cif": "output/run_validation_base_of3_v4_n5/9m5q/seed_2746317213/9m5q_seed_2746317213_sample_2_model.cif",
+      "source_root": "output/run_validation_base_of3_v4_n5"
+    },
+    "ft": {
+      "sample": 3,
+      "sample_ranking_score": 0.729820728302002,
+      "cif": "output/run_validation_exp43_v4_n5_ema/9m5q/seed_2746317213/9m5q_seed_2746317213_sample_3_model.cif",
+      "source_root": "output/run_validation_exp43_v4_n5_ema"
+    }
+  },
+  "9qlu": {
+    "cohort": "val_unique_seq",
+    "gt_cif": "data/assemblies/9qlu_assembly.cif",
+    "base": {
+      "sample": 1,
+      "sample_ranking_score": 0.5390446782112122,
+      "cif": "output/run_validation_base_of3_v4_n5/9qlu/seed_2746317213/9qlu_seed_2746317213_sample_1_model.cif",
+      "source_root": "output/run_validation_base_of3_v4_n5"
+    },
+    "ft": {
+      "sample": 3,
+      "sample_ranking_score": 0.6357913613319397,
+      "cif": "output/run_validation_exp43_v4_n5_ema/9qlu/seed_2746317213/9qlu_seed_2746317213_sample_3_model.cif",
+      "source_root": "output/run_validation_exp43_v4_n5_ema"
+    }
+  },
+  "9u4l": {
+    "cohort": "val_unique_seq",
+    "gt_cif": "data/assemblies/9u4l_assembly.cif",
+    "base": {
+      "sample": 4,
+      "sample_ranking_score": 0.4494500160217285,
+      "cif": "output/run_validation_base_of3_v4_n5/9u4l/seed_2746317213/9u4l_seed_2746317213_sample_4_model.cif",
+      "source_root": "output/run_validation_base_of3_v4_n5"
+    },
+    "ft": {
+      "sample": 2,
+      "sample_ranking_score": 0.5134632587432861,
+      "cif": "output/run_validation_exp43_v4_n5_ema/9u4l/seed_2746317213/9u4l_seed_2746317213_sample_2_model.cif",
+      "source_root": "output/run_validation_exp43_v4_n5_ema"
+    }
+  }
+}

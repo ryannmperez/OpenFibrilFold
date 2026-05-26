@@ -9,11 +9,12 @@ Each cell shows the panel image and lDDT + TM-score labels below.
 Row labels appear as rotated text on the left margin; column labels
 across the top.
 
-Column selection: per-PDB FT-vs-OF3 TM-score delta. 9qlu has the largest
-ΔTM (+0.253) within val_unique_seq (rare-fold apo / ligand fibrils on
-unseen sequences). 9ug1 has the largest ΔTM (+0.324) within val_ligand.
-9ljb has the smallest ΔTM (+0.066) and the lowest absolute TM in either
-dataloader — a 1010-residue assembly where both models still struggle.
+Column selection: per-PDB OFF-vs-OF3 TM-score delta on the AF3-picked
+predict-mode sample. 9qlu has the largest ΔTM (+0.254) within the Unique
+Sequences Validation Set (rare-fold apo / ligand fibrils on unseen
+sequences). 9ug1 has the largest ΔTM (+0.304) within the Unique Ligands
+Validation Set. 9ljb has the smallest ΔTM (+0.035) in either set — a
+1010-residue assembly where both models still struggle.
 """
 
 from PIL import Image, ImageDraw, ImageFont, ImageChops
@@ -29,27 +30,26 @@ ROWS = [
     ("OFF",             "off",  (28, 99, 173)),
 ]
 
-# Per-PDB lDDT computed via openfold3.core.metrics.validation_all_atom.lddt
-# (the function the val pipeline uses) on heavy atoms after Hungarian
-# chain-permutation matching. Same formula → same numerical scale as the
-# README metric table. Computed by scripts/per_pdb_val_metric.py on the
-# val_compare pred / gt CIFs (epoch 0 of trainer.validate on OFF
-# step 1024 vs base OF3 ft3_v1).
+# Per-PDB intra-complex lDDT from code_review_2026_05_25/metrics on the
+# AF3-picked predict-mode sample (sample_ranking_score argmax across 5 seeds
+# from output/run_validation_*_v4_n5*_ema/). Same value as the README
+# "Intra-complex lDDT" row for each cohort, computed PDB-by-PDB instead of
+# cohort-averaged.
 LDDT = {
-    "9qlu": {"base": 0.406, "off": 0.492},
-    "9ug1": {"base": 0.436, "off": 0.774},
-    "9ljb": {"base": 0.395, "off": 0.400},
+    "9qlu": {"base": 0.095, "off": 0.325},
+    "9ug1": {"base": 0.086, "off": 0.332},
+    "9ljb": {"base": 0.128, "off": 0.268},
 }
 
 # Per-PDB TM-score from US-align in multi-chain complex mode
-# (USalign … -mm 1 -ter 0), so the score covers the full fibril assembly
-# with chain correspondences found by MM-align greedy search.
-# Computed by scripts/compute_val_compare_tm.py on the same val_compare
-# pred / gt CIFs used for LDDT above.
+# (USalign … -mm 1 -ter 0 -outfmt 2). Reported as TM2 — normalized by
+# Structure_2 = GT length, the multimer convention. Computed on the same
+# AF3-picked predict-mode CIFs as LDDT above (see
+# output/af3_pick_tm_2026_05_26.json).
 TM = {
-    "9qlu": {"base": 0.204, "off": 0.457},
-    "9ug1": {"base": 0.573, "off": 0.897},
-    "9ljb": {"base": 0.158, "off": 0.224},
+    "9qlu": {"base": 0.279, "off": 0.533},
+    "9ug1": {"base": 0.197, "off": 0.501},
+    "9ljb": {"base": 0.159, "off": 0.194},
 }
 
 CELL = 600                # input panel size (matches render_panel.py)
