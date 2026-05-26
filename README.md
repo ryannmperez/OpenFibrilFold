@@ -18,7 +18,7 @@
 
 ## Overview
 
-OpenFibrilFold (OFF) adapts [OpenFold3](https://github.com/aqlaboratory/openfold-3), to the structural prediction problem of amyloid fibrils. OFF attempts to fix model collapse when predicting fibrils in complex with stacked small molecule ligands. OFF introduces:
+OpenFibrilFold (OFF) adapts [OpenFold3](https://github.com/aqlaboratory/openfold-3) to the structural prediction problem of amyloid fibrils. OFF attempts to fix model collapse when predicting fibrils in complex with stacked small molecule ligands. OFF introduces:
 
 - a **ribbon-symmetric crop** that preserves both faces of the cross-β stack during training,
 - a **cross-ribbon distogram weight** that emphasizes the fold-defining inter-strand contacts,
@@ -27,25 +27,25 @@ OpenFibrilFold (OFF) adapts [OpenFold3](https://github.com/aqlaboratory/openfold
 
 ## Highlights
 
-We split the held-out fibril set into two cohorts with different difficulty profiles. `val_unique_seq` (n=6) holds rare-fold apo and ligand fibrils on sequences never seen during training, isolating performance on novel folds. `val_ligand` (n=7) is exclusively ligand-bound fibrils, where small-molecule pose prediction is the harder objective — numbers below are reported per-cohort, never aggregated.
+We split the held-out fibril set into two cohorts with different difficulty profiles. The Unique Sequences Validation Set (n=6) holds rare-fold apo and ligand fibrils on sequences never seen during training, isolating performance on novel folds. The Unique Ligands Validation Set (n=7) is exclusively ligand-bound fibrils, where small-molecule pose prediction is the harder objective — numbers below are reported per-cohort, never aggregated.
 
 <p align="center">
-  <img src="figures/val_ligand_tm.png" alt="Per-PDB fibril-assembly TM-score on val_ligand: base OF3 vs OFF (paired bars)" width="780" />
+  <img src="figures/val_ligand_tm.png" alt="Per-PDB fibril-assembly TM-score on the Unique Ligands Validation Set: Base OF3 vs OFF (paired bars)" width="780" />
 </p>
 
 <p align="center">
-  <img src="figures/val_unique_seq_tm.png" alt="Per-PDB fibril-assembly TM-score on val_unique_seq: base OF3 vs OFF (paired bars)" width="780" />
+  <img src="figures/val_unique_seq_tm.png" alt="Per-PDB fibril-assembly TM-score on the Unique Sequences Validation Set: Base OF3 vs OFF (paired bars)" width="780" />
 </p>
 
 **Mean TM-score per dataloader (USalign, multi-chain complex):**
 
-| dataloader | n | mean TM (OF3 base) | mean TM (OFF) | Δ |
+| Validation cohort | n | mean TM (OF3 base) | mean TM (OFF) | Δ |
 | --- | ---: | ---: | ---: | ---: |
-| `val_ligand`     | 7 | 0.376 | **0.610** | **+0.235** |
-| `val_unique_seq` | 6 | 0.282 | **0.456** | **+0.174** |
+| Unique Ligands Validation Set     | 7 | 0.376 | **0.610** | **+0.235** |
+| Unique Sequences Validation Set   | 6 | 0.282 | **0.456** | **+0.174** |
 
 <!-- METRICS_TABLE_START -->
-| Metric | OF3 base<br/>val_unique_seq | OFF<br/>val_unique_seq | OF3 base<br/>val_ligand | OFF<br/>val_ligand |
+| Metric | OF3 base<br/>Unique Sequences Validation Set | OFF<br/>Unique Sequences Validation Set | OF3 base<br/>Unique Ligands Validation Set | OFF<br/>Unique Ligands Validation Set |
 | --- | ---: | ---: | ---: | ---: |
 | **Structure (lDDT / TM, ↑)** |  |  |  |  |
 | Intra-protein lDDT | 0.477 | **0.538** | 0.477 | **0.679** |
@@ -79,7 +79,7 @@ Three held-out fibrils, viewed end-on (looking straight down the protofilament s
 
 <!-- HEAD_TO_HEAD_START -->
 <p align="center">
-  <img src="figures/h2h_grid.png" alt="3×3 head-to-head: OF3 base vs ground truth vs OFF on 9qlu (largest val_unique_seq ΔTM), 9ug1 (largest val_ligand ΔTM), 9ljb (smallest ΔTM in either val set)" width="780" />
+  <img src="figures/h2h_grid.png" alt="3×3 head-to-head: Base OF3 vs ground truth vs OFF on 9qlu (largest Unique Sequences Validation Set ΔTM), 9ug1 (largest Unique Ligands Validation Set ΔTM), 9ljb (smallest ΔTM in either set)" width="780" />
 </p>
 <!-- HEAD_TO_HEAD_END -->
 
